@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/progres"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+       android:gravity="center" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@drawable/bdtube_splash"
+        android:gravity="center"
+
+        >
+
+
+        <ProgressBar
+            android:id="@+id/prog"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/busytextview"
+            android:layout_centerHorizontal="true"
+            android:indeterminate="true"
+            android:layout_marginLeft="160dp"
+            android:layout_marginTop="70dp"
+            android:indeterminateDrawable="@drawable/my_progress_indeterminate" />
+        </LinearLayout>
+
+
+</RelativeLayout>

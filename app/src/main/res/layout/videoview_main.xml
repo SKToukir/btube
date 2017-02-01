@@ -1,0 +1,61 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/VideoViewFL"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <VideoView
+            android:id="@+id/VideoView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center" />
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/txtSongName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/VideoViewFL"
+        android:layout_marginBottom="3dp"
+        android:text="No song name"
+        android:textColor="@color/black"
+        android:textSize="10dp" />
+
+    <TextView
+        android:id="@+id/txtArtistName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtSongName"
+        android:text=""
+        android:textColor="@color/black"
+        android:textSize="10dp" />
+
+    <!--    <ImageButton
+            android:id="@+id/btnFullScreen"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/fullscreen_collapse"
+            android:layout_alignEnd="@+id/VideoViewFL"
+            android:layout_alignBottom="@+id/txtArtistName"
+            android:onClick="FullScreenOrientationLand"
+
+            />-->
+
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+
+        android:id="@+id/pullToRListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/txtArtistName">
+
+    </com.handmark.pulltorefresh.library.PullToRefreshListView>
+
+</RelativeLayout>

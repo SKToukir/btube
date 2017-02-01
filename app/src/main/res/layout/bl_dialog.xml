@@ -1,0 +1,44 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/alertstyle"
+    android:padding="20dp" >
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="71dp"
+            android:layout_height="49dp"
+            android:layout_weight="0.02"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/logo" />
+
+        <TextView
+            android:id="@+id/txtSuggestionLebel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"            
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="10dp"
+            
+            android:text="ClubZ is subscription based entertainment service for Banglalink.ClubZ subscribers will get Daily 5 free downloads from the APP.To get FREE content activate ClubZ first.\n\n Click Confirm button below! You will be charged Tk2(+SD and VAT)/Daily with Auto-renewal.
+\nTo DeActive type STOP CZ and send SMS to 6624."
+            android:textColor="#000000" />
+
+        <Button
+            android:id="@+id/btnOk"
+            android:layout_width="212dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Confirm"
+            android:textColor="#000000" />
+
+    </LinearLayout>
+
+</RelativeLayout>

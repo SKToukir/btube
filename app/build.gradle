@@ -1,0 +1,50 @@
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+    useLibrary 'org.apache.http.legacy'
+
+    defaultConfig {
+        applicationId "bdtube.vumobile.com.bdtube"
+        minSdkVersion 14
+        targetSdkVersion 23
+        versionCode 13
+        versionName "2.11"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+
+    compile 'com.android.support:appcompat-v7:23.1.0'
+    // compile 'com.google.android.gms:play-services:+'
+    // compile 'com.google.android.gms:play-services-gcm:7.5.0'
+    //compile 'com.google.android.gms:play-services-location:7.5.0'
+   // compile files('libs/gcm.jar')
+   /// compile files('libs/google-play-services_lib.jar')
+    compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
+    compile project(':pullToRefreshLibrary')
+    compile 'com.mcxiaoke.volley:library-aar:1.0.0'
+    compile files('libs/ksoap2-android-assembly-2.5.8-jar-with-dependencies.jar')
+    compile files('libs/adplaybind.jar')
+    compile files('libs/FlurryAnalytics-6.2.0.jar')
+    compile 'com.google.android.gms:play-services:8.3.0'
+    compile 'com.squareup.okhttp:okhttp:2.0.0'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'org.jbundle.util.osgi.wrapped:org.jbundle.util.osgi.wrapped.org.apache.http.client:4.1.2'
+
+    compile 'com.google.android.gms:play-services-identity:8.3.0'
+    compile 'com.google.android.gms:play-services-plus:8.3.0'
+    compile 'com.google.android.gms:play-services-gcm:8.3.0'
+
+}

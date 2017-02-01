@@ -1,0 +1,83 @@
+http://wap.shabox.mobi/bdtubeapi/default.aspx?type=list&sequent=1
+
+Full Movie
+1-Bangla Movie
+2-English Movie
+3-Hindi Movie
+
+Full Video
+4-Bangla Movies
+5-Bangla Music
+6-English Movies
+7-English Music
+8-Hindi Movies
+9-Hindi Music
+
+Short Clips
+10-Bangla Movies
+11-Bangla Music
+12-English Movies
+13-English Music
+14-Hindi Movies
+15-Hindi Music
+
+20-Bangla Drama Clips
+
+Do Rating
+http://wap.shabox.mobi/BDTubeAPI/ContentMetaPost.aspx?type=Rating&msisdn=88888888888&content=xxxxxxxxxxxx&value=5
+
+Do Favourite
+http://wap.shabox.mobi/BDTubeAPI/ContentMetaPost.aspx?type=Favourite&msisdn=88888888888&content=xxxxxxxxxxxx
+
+
+do Comment
+http://wap.shabox.mobi/BDTubeAPI/ContentMetaPost.aspx?type=Comment&msisdn=77777777777&content=xxxxxxxxxxxx&value=Love You
+
+
+Get Comments List by content
+http://wap.shabox.mobi/BDTubeAPI/ContentMetaGet.aspx?type=Comment&content=xxxxxxxxxxxx
+
+
+Is Favourite by MSISDN
+http://wap.shabox.mobi/BDTubeAPI/ContentMetaGet.aspx?type=Favourite&msisdn=88888888888&content=xxxxxxxxxxxx
+
+Favourite List by MSISDN
+http://wap.shabox.mobi/BDTubeAPI/ContentMetaGet.aspx?type=FavouriteList&msisdn=8801713450450
+
+Access Log/ when user enter into apps then Access log.
+http://wap.shabox.mobi/BDTubeAPI/AccessSuccess.aspx?type=Access&msisdn=8801955279940&HS_MOD=HonnerBil&HS_MANUFAC=Bal&HS_DIM=300x100
+
+
+Success Log/ charging call everytime //-if sMasterCat=free --no charging /// if full movie then sMasterCat== Fullmovie
+wap.shabox.mobi/BDTubeAPI/AccessSuccess.aspx?type=Success&msisdn=8801955279940&HS_MOD=HonnerBil&HS_MANUFAC=Bal&HS_DIM=300x100&sMasterCat=Bangla%20Movie&content_code=aaaaa&ContentTitle=aaaaa&sContentType=aaaaa&ZedID=aaaaa&CategoryCode=aaaaa
+
+Search
+http://wap.shabox.mobi/bdtubeapi/default.aspx?type=search&sequent=1&sString=drama
+
+Download/Chargeing status by MSISDN/ check status for 5 time download.
+http://wap.shabox.mobi/BDTubeAPI/RegAPI.aspx?type=ChkDownloads&msisdn=8801955279940
+
+
+Do the Subscription // Charging
+http://wap.shabox.mobi/BDTubeAPI/RegAPI.aspx?type=DoSubs&msisdn=8801955279940&HS_MOD=HonnerBil&HS_MANUFAC=Bal
+
+
+Is Subscribed
+http://wap.shabox.mobi/BDTubeAPI/RegAPI.aspx?type=ChkSubs&msisdn=8801955279940
+
+
+Registration Cancel
+http://wap.shabox.mobi/BDTubeAPI/RegAPI.aspx?type=CancelSubs&msisdn=8801955279940
+
+renew user..... 5 time
+http://wap.shabox.mobi/BDTubeAPI/RegAPI.aspx?type=Renew&msisdn=8801955279940
+
+
+random 5 video get from new video total: http://wap.shabox.mobi/bdtubeapi/default.aspx?type=random&sequent=1
+
+Server API Key help:
+AIzaSyDlTwqG_z3ZW3P_7rviK1TaOxWVCM1PHX4
+
+Sender ID help:
+28400850174
+

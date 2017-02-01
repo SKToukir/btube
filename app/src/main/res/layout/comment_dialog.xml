@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="300dp"
+    android:layout_height="400dp"
+    android:background="@drawable/comment_background"
+    >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:orientation="horizontal"
+    android:background="@drawable/custom_background_comment"
+
+    >
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/comment"
+        android:background="#EFEFEF"
+        android:layout_gravity="center"
+        android:layout_marginLeft="15dp"
+
+        />
+    <EditText
+        android:id="@+id/edtComment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="Your Comment Here"
+        android:layout_gravity="center"
+        android:background="#EFEFEF"
+        android:lines="4"
+
+        />
+
+    </LinearLayout>
+    <Button
+        android:id="@+id/btnCommentSubmit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        />
+    <TextView
+        android:id="@+id/txtcomment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Your comment Empty"
+        android:gravity="center"
+        android:textSize="20dp"
+        />
+
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:id="@+id/pullToRListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.handmark.pulltorefresh.library.PullToRefreshListView>
+</LinearLayout>

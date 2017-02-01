@@ -1,0 +1,42 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/alertstyle"
+    android:padding="20dp" >
+
+    <LinearLayout
+        android:id="@+id/linearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical" >
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="71dp"
+            android:layout_height="49dp"
+            android:layout_weight="0.02"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/logo" />
+
+        <TextView
+            android:id="@+id/txtSuggestionLebel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"            
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="10dp"
+            android:text="ClubZ is a weekly subscription service for Grameenphone, Banglalink, Airtel and TeleTalk users. First week is free. After that ClubZ subscribers will get 4 weekly free downloads from the App for only Tk 17.25 including VAT+5% Surcharge per week for GP and Tk 17.25 including VAT+5% Surcharge per week for. Tk2.30 including VAT+5% Surcharge per day for Airtel, Banglalink and TeleTalk user. To deactivate type STOP CZ and send SMS to 6624"
+            android:textColor="#000000" />
+
+        <Button
+            android:id="@+id/btnOk"
+            android:layout_width="212dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Confirm"
+            android:textColor="#000000" />
+
+    </LinearLayout>
+
+</RelativeLayout>
