@@ -314,10 +314,10 @@ public class MyGcmListenerService extends GcmListenerService {
     }
 
     public  void SendLaunchPushRes(){
-        new SendLaunchPushResponse().execute();
+       // new SendLaunchPushResponse().execute();
     }
 
-    private class SendLaunchPushResponse extends AsyncTask<String, String, String> {
+    public class SendLaunchPushResponse extends AsyncTask<String, String, String> {
 
 
         RequiredUserInfo userinfo = new RequiredUserInfo();

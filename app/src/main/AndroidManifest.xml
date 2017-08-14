@@ -19,6 +19,7 @@
 
     <!-- Permission to vibrate -->
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -96,6 +97,23 @@
             android:name=".GCM.RegistrationIntentService"
             android:exported="false" >
         </service>
+
+        <receiver android:name=".serviceNotification.MyReceiver">
+            <intent-filter>
+                <action android:name="YouWillNeverKillMe" />
+
+                <intent-filter>
+                    <action android:name="restartApps" />
+                </intent-filter>
+
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <service
+            android:name=".serviceNotification.NetworkedService"
+            android:enabled="true"
+            android:exported="false"
+            android:stopWithTask="false" />
 
     </application>
 

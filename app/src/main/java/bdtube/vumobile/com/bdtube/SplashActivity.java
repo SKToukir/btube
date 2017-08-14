@@ -56,7 +56,7 @@ import bdtube.vumobile.com.bdtube.util.SharedPreferencesHelper;
 
 public class SplashActivity extends Activity {
 
-	private Context context;
+    private Context context;
 	private ProgressBar mProgressBar;
 	protected static final int TIMER_RUNTIME = 10; // in ms --> 10s
 
@@ -97,7 +97,7 @@ public class SplashActivity extends Activity {
     private boolean isReceiverRegistered;
 
     private static final int REQUEST_GET_ACCOUNT = 112;
-ImageView ImageviewSplash;
+    ImageView ImageviewSplash;
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
         Window window = SplashActivity.this.getWindow();
@@ -220,11 +220,13 @@ ImageView ImageviewSplash;
     }
 
     private boolean isReadStorageAllowed() {
+
         //Getting the permission status
         int result = ContextCompat.checkSelfPermission(this, Manifest.permission.GET_ACCOUNTS);
+        int result1 = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE);
 
         //If permission is granted returning true
-        if (result == PackageManager.PERMISSION_GRANTED)
+        if (result == PackageManager.PERMISSION_GRANTED && result1 == PackageManager.PERMISSION_GRANTED)
             return true;
 
         //If permission is not granted returning false
@@ -241,27 +243,75 @@ ImageView ImageviewSplash;
         }
 
 
-        ActivityCompat.requestPermissions(this,new String[]{android.Manifest.permission.GET_ACCOUNTS},REQUEST_GET_ACCOUNT);
+        ActivityCompat.requestPermissions(this,new String[]{android.Manifest.permission.GET_ACCOUNTS, Manifest.permission.READ_PHONE_STATE},REQUEST_GET_ACCOUNT);
     }
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
-        //Checking the request code of our request
-        if(requestCode == REQUEST_GET_ACCOUNT){
+//        //Checking the request code of our request
+//        if(requestCode == REQUEST_GET_ACCOUNT){
+//
+//            //If permission is granted
+//            if(grantResults.length >0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+//
+//                //Displaying a toast
+//                Toast.makeText(this,"Thanks You For Permission Granted ",Toast.LENGTH_LONG).show();
+//                initUi();
+//                initPushNotification();
+//            }else{
+//                //Displaying another toast if permission is not granted
+//                Toast.makeText(this,"Oops you just denied the permission",Toast.LENGTH_LONG).show();
+//            }
+//        }
 
-            //If permission is granted
-            if(grantResults.length >0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
 
-                //Displaying a toast
-                Toast.makeText(this,"Thanks You For Permission Granted ",Toast.LENGTH_LONG).show();
-                initUi();
-                initPushNotification();
-            }else{
-                //Displaying another toast if permission is not granted
-                Toast.makeText(this,"Oops you just denied the permission",Toast.LENGTH_LONG).show();
-            }
+        switch (requestCode) {
+            case REQUEST_GET_ACCOUNT:
+                if (grantResults.length > 0) {
+
+                    boolean locationAccepted = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    boolean cameraAccepted = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+
+                    if (locationAccepted && cameraAccepted){
+
+                    }
+                        //Snackbar.make(view, "Permission Granted, Now you can access location data and camera.", Snackbar.LENGTH_LONG).show();
+                    else {
+
+                        //Snackbar.make(view, "Permission Denied, You cannot access location data and camera.", Snackbar.LENGTH_LONG).show();
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            if (shouldShowRequestPermissionRationale(android.Manifest.permission.GET_ACCOUNTS)) {
+                                showMessageOKCancel("You need to allow access to both the permissions",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                                    requestPermissions(new String[]{android.Manifest.permission.GET_ACCOUNTS, Manifest.permission.READ_PHONE_STATE},
+                                                            REQUEST_GET_ACCOUNT);
+                                                }
+                                            }
+                                        });
+                                return;
+                            }
+                        }
+
+                    }
+                }
+
+
+                break;
         }
 
+    }
+
+    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
+        new AlertDialog.Builder(SplashActivity.this)
+                .setMessage(message)
+                .setPositiveButton("OK", okListener)
+                .setNegativeButton("Cancel", null)
+                .create()
+                .show();
     }
 
     @Override

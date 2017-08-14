@@ -1,14 +1,26 @@
 [
     {
-        "merged": "F:\\Touhid\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4\\default_ptr_flip.png",
-        "source": "F:\\Touhid\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\bundles\\debug\\res\\drawable-mdpi-v4\\default_ptr_flip.png"
+        "merged": "C:\\Users\\it-6\\Desktop\\Project\\BDTubeProject\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4\\indicator_arrow.png",
+        "source": "C:\\Users\\it-6\\Desktop\\Project\\BDTubeProject\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\bundles\\debug\\res\\drawable-mdpi-v4\\indicator_arrow.png"
     },
     {
-        "merged": "F:\\Touhid\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4\\default_ptr_rotate.png",
-        "source": "F:\\Touhid\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\bundles\\debug\\res\\drawable-mdpi-v4\\default_ptr_rotate.png"
+        "merged": "C:\\Users\\it-6\\Desktop\\Project\\BDTubeProject\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4\\default_ptr_rotate.png",
+        "source": "C:\\Users\\it-6\\Desktop\\Project\\BDTubeProject\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\bundles\\debug\\res\\drawable-mdpi-v4\\default_ptr_rotate.png"
     },
     {
-        "merged": "F:\\Touhid\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4\\indicator_arrow.png",
-        "source": "F:\\Touhid\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\bundles\\debug\\res\\drawable-mdpi-v4\\indicator_arrow.png"
+        "merged": "C:\\Users\\it-6\\Desktop\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4\\indicator_arrow.png",
+        "source": "C:\\Users\\it-6\\Desktop\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\bundles\\debug\\res\\drawable-mdpi-v4\\indicator_arrow.png"
+    },
+    {
+        "merged": "C:\\Users\\it-6\\Desktop\\Project\\BDTubeProject\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4\\default_ptr_flip.png",
+        "source": "C:\\Users\\it-6\\Desktop\\Project\\BDTubeProject\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\bundles\\debug\\res\\drawable-mdpi-v4\\default_ptr_flip.png"
+    },
+    {
+        "merged": "C:\\Users\\it-6\\Desktop\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4\\default_ptr_rotate.png",
+        "source": "C:\\Users\\it-6\\Desktop\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\bundles\\debug\\res\\drawable-mdpi-v4\\default_ptr_rotate.png"
+    },
+    {
+        "merged": "C:\\Users\\it-6\\Desktop\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-mdpi-v4\\default_ptr_flip.png",
+        "source": "C:\\Users\\it-6\\Desktop\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\bundles\\debug\\res\\drawable-mdpi-v4\\default_ptr_flip.png"
     }
 ]

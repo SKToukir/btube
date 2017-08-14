@@ -11,8 +11,8 @@ android {
         applicationId "bdtube.vumobile.com.bdtube"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 13
-        versionName "2.11"
+        versionCode 14
+        versionName "2.12"
     }
     buildTypes {
         release {
@@ -34,7 +34,7 @@ dependencies {
    /// compile files('libs/google-play-services_lib.jar')
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
     compile project(':pullToRefreshLibrary')
-    compile 'com.mcxiaoke.volley:library-aar:1.0.0'
+    compile 'com.mcxiaoke.volley:library:1.0.19'
     compile files('libs/ksoap2-android-assembly-2.5.8-jar-with-dependencies.jar')
     compile files('libs/adplaybind.jar')
     compile files('libs/FlurryAnalytics-6.2.0.jar')

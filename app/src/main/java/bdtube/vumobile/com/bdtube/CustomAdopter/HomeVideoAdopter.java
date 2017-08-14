@@ -270,7 +270,7 @@ public class HomeVideoAdopter extends ArrayAdapter<HomeVideoList> {
                 }
             });
             ///holder.ratingBar.setOnClickListener(litchener);
-            if (ratingValue.equals("")) {
+            if (ratingValue.equals("") || ratingValue.equals("null") || ratingValue.equals(null)) {
                 holder.ratingBar.setRating(Float.parseFloat("0"));
             } else {
                 holder.ratingBar.setRating(Float.parseFloat(ratingValue));

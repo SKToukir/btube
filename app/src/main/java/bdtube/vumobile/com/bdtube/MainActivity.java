@@ -1,7 +1,9 @@
 package bdtube.vumobile.com.bdtube;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +13,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
@@ -34,10 +37,12 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.adplaybind.AdPlayBind;
 import com.flurry.android.FlurryAgent;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
@@ -49,6 +54,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import bdtube.vumobile.com.bdtube.Config.Api;
 import bdtube.vumobile.com.bdtube.CustomAdopter.HomeVideoAdopter;
 import bdtube.vumobile.com.bdtube.CustomDialog.ContactUs;
 import bdtube.vumobile.com.bdtube.CustomDialog.FAQDialog;
@@ -60,6 +66,8 @@ import bdtube.vumobile.com.bdtube.Model.HomeVideoList;
 import bdtube.vumobile.com.bdtube.Model.NavigationList;
 import bdtube.vumobile.com.bdtube.app.AppController;
 import bdtube.vumobile.com.bdtube.app.CommonString;
+import bdtube.vumobile.com.bdtube.serviceNotification.MyReceiver;
+import bdtube.vumobile.com.bdtube.serviceNotification.NetworkedService;
 import bdtube.vumobile.com.bdtube.util.SharedPreferencesHelper;
 
 
@@ -72,6 +80,9 @@ public class MainActivity extends ActionBarActivity
 
     Context context;
 
+    public String urlForRobi = "http://wap.shabox.mobi/bdnewapi/Data/Categorywise";
+    public String urlForOther = "http://wap.shabox.mobi/bdnewapi/DataOther/Categorywise";
+
     public String url = "http://wap.shabox.mobi/bdtubeapi/default.aspx?type=list&sequent=00";
     public ProgressDialog progressDialog;
     PullToRefreshListView pullToRListView;
@@ -81,6 +92,7 @@ public class MainActivity extends ActionBarActivity
     public ArrayList<NavigationList> navigationList;
     private DrawerLayout mDrawerLayout;
 
+    private PendingIntent pendingIntent;
     public String MenuTitle = "";
     String MobileNumber = "";
 
@@ -101,7 +113,7 @@ public class MainActivity extends ActionBarActivity
         getSupportActionBar().setIcon(R.drawable.bdtube_icon);
 
         ActionBar bar = getSupportActionBar();
-        bar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#F16521")));
+        bar.setBackgroundDrawable(new ColorDrawable(Color.RED));
 
 
         SystemBarTintManager mTintManager = new SystemBarTintManager(this);
@@ -121,13 +133,24 @@ public class MainActivity extends ActionBarActivity
 
         init();
 
-        makeJsonArrayRequest(context, url, "free", "NewVideo00");
 
         MobileNumber = SplashActivity.resultMno_splash;
         if (MobileNumber.equalsIgnoreCase("ERROR")) {
             MobileNumber = "wifi";
         } else {
             MobileNumber = SplashActivity.resultMno_splash;
+        }
+
+        if (MobileNumber.startsWith("wifi")) {
+
+            String catCode = "1";
+            getCatGoryWiseContentForRobiNother(MainActivity.this, Api.URL_MAIN_PAGE_OTHER, "free", "MainScreenOther", catCode);
+            //makeJsonArrayRequest(context, "http://wap.shabox.mobi/bdnewapi/Data/Fulldata", "free", "NewVideo00");
+        } else {
+
+            String catCode = "2";
+            getCatGoryWiseContentForRobiNother(MainActivity.this, Api.URL_MAIN_PAGE_ROBI, "free", "MainScreenRobi", catCode);
+            //makeJsonArrayRequest(context, "http://wap.shabox.mobi/bdnewapi/DataOther/Fulldata", "free", "NewVideo00");
         }
 
         // user access log
@@ -161,6 +184,19 @@ public class MainActivity extends ActionBarActivity
         FlurryAgent.onPageView();
         ChargingJsonArrayRequestVersion(MainActivity.this, "http://www.vumobile.biz/bdtube/test.php");
 
+        try {
+
+            Intent serviceIntent = new Intent(MainActivity.this, NetworkedService.class);
+            startService(serviceIntent);
+            Intent myIntent = new Intent(MainActivity.this, MyReceiver.class);
+            pendingIntent = PendingIntent.getBroadcast(MainActivity.this, 0, myIntent, 0);
+
+            AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+            alarmManager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime(), 90 * 1000, pendingIntent);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -296,8 +332,17 @@ public class MainActivity extends ActionBarActivity
             case R.id.txtHome:
                 mDrawerLayout.closeDrawers();
                 // Toast.makeText(getApplicationContext(), "txtNewMovies", Toast.LENGTH_LONG).show();
-                String urlNewMovieHome = "http://wap.shabox.mobi/bdtubeapi/default.aspx?type=list&sequent=00";
-                makeJsonArrayRequest(context, urlNewMovieHome, "free", "Home");
+                if (MobileNumber.startsWith("wifi")) {
+
+                    String catCode = "1";
+                    getCatGoryWiseContentForRobiNother(MainActivity.this, Api.URL_MAIN_PAGE_OTHER, "free", "MainScreenOther", catCode);
+                    //makeJsonArrayRequest(context, "http://wap.shabox.mobi/bdnewapi/Data/Fulldata", "free", "NewVideo00");
+                } else {
+
+                    String catCode = "2";
+                    getCatGoryWiseContentForRobiNother(MainActivity.this, Api.URL_MAIN_PAGE_ROBI, "free", "MainScreenRobi", catCode);
+                    //makeJsonArrayRequest(context, "http://wap.shabox.mobi/bdnewapi/DataOther/Fulldata", "free", "NewVideo00");
+                }
                 if (!MainActivity.AppsVersion.equalsIgnoreCase(MainActivity.webVersion)) {
 
                     Update();
@@ -306,23 +351,29 @@ public class MainActivity extends ActionBarActivity
 
                 break;
 
-// Full movie
+            // Bangla Music for other operator
             case R.id.txtBanglaMusic:
                 mDrawerLayout.closeDrawers();
                 //    Toast.makeText(getApplicationContext(), "txtNewMovies", Toast.LENGTH_LONG).show();
-                String urlNewMovie = "http://wap.shabox.mobi/bdtubeapi/default.aspx?type=list&sequent=5";
-                makeJsonArrayRequest(context, urlNewMovie, "free", "BanglaMusic5");
+                String catCode = "E8E4F496-9CA9-4B35-BADD-9B6470BE2F74";
+                getCatGoryWiseContentForRobiNother(MainActivity.this, Api.URL_CATEGORYWISE_OTHER, "free", "banglaMusicOther", catCode);
+                //String urlNewMovie = "http://wap.shabox.mobi/bdtubeapi/default.aspx?type=list&sequent=5";
+                //makeJsonArrayRequest(context, urlNewMovie, "free", "BanglaMusic5");
                 if (!MainActivity.AppsVersion.equalsIgnoreCase(MainActivity.webVersion)) {
 
                     Update();
 
                 }
                 break;
+            // English Music for other operator
             case R.id.txtEnglishMusic:
                 mDrawerLayout.closeDrawers();
+
+                String catCodeEnglishMusicOther = "74D847C2-4E98-44DA-B7A3-61C1EAE8938F";
+                getCatGoryWiseContentForRobiNother(MainActivity.this, Api.URL_CATEGORYWISE_OTHER, catCodeEnglishMusicOther, "englishMusicOther", catCodeEnglishMusicOther);
                 //  Toast.makeText(getApplicationContext(), "txtNewMovies", Toast.LENGTH_LONG).show();
-                String urlNewMusic = "http://wap.shabox.mobi/bdtubeapi/default.aspx?type=list&sequent=7";
-                makeJsonArrayRequest(context, urlNewMusic, "free", "EnglishMusic7");
+//                String urlNewMusic = "http://wap.shabox.mobi/bdtubeapi/default.aspx?type=list&sequent=7";
+//                makeJsonArrayRequest(context, urlNewMusic, "free", "EnglishMusic7");
                 if (!MainActivity.AppsVersion.equalsIgnoreCase(MainActivity.webVersion)) {
 
                     Update();
@@ -345,8 +396,10 @@ public class MainActivity extends ActionBarActivity
             case R.id.txtBanglaMovie:
                 mDrawerLayout.closeDrawers();
                 // Toast.makeText(getApplicationContext(), "txtNewMovies", Toast.LENGTH_LONG).show();
-                String urlNewFunny = "http://wap.shabox.mobi/bdtubeapi/default.aspx?type=list&sequent=4";
-                makeJsonArrayRequest(context, urlNewFunny, "free", "BanglaMovie4");
+                String catCodeBanglaMovieSong = "A5D68929-8921-4ECD-8151-E36A3871EB95";
+                getCatGoryWiseContentForRobiNother(MainActivity.this, Api.URL_CATEGORYWISE_OTHER, "free", "banglaMovieSong", catCodeBanglaMovieSong);
+//                String urlNewFunny = "http://wap.shabox.mobi/bdtubeapi/default.aspx?type=list&sequent=4";
+//                makeJsonArrayRequest(context, urlNewFunny, "free", "BanglaMovie4");
 
                 if (!MainActivity.AppsVersion.equalsIgnoreCase(MainActivity.webVersion)) {
 
@@ -356,9 +409,11 @@ public class MainActivity extends ActionBarActivity
                 break;
             case R.id.txtBanglaNatok:
                 mDrawerLayout.closeDrawers();
+                String catCodeBanglaDramaHD = "4781C5FB-0F16-4892-877D-F2F73DD4DE92";
+                getCatGoryWiseContentForRobiNother(MainActivity.this, Api.URL_CATEGORYWISE_OTHER, "free", "BanglaDramaHDOther", catCodeBanglaDramaHD);
                 // Toast.makeText(getApplicationContext(), "txtNewMovies", Toast.LENGTH_LONG).show();
-                String urlBanglaNatok = "http://wap.shabox.mobi/bdtubeapi/default.aspx?type=list&sequent=21";
-                makeJsonArrayRequest(context, urlBanglaNatok, "free", "BanglaNatok21");
+//                String urlBanglaNatok = "http://wap.shabox.mobi/bdtubeapi/default.aspx?type=list&sequent=21";
+//                makeJsonArrayRequest(context, urlBanglaNatok, "free", "BanglaNatok21");
 
                 if (!MainActivity.AppsVersion.equalsIgnoreCase(MainActivity.webVersion)) {
 
@@ -367,12 +422,15 @@ public class MainActivity extends ActionBarActivity
                 }
                 break;
 
-//Short clips
+//Short clips other
+            // Bangla Music other
             case R.id.txtSCBanglaMusic:
                 mDrawerLayout.closeDrawers();
+                    String catCodeBanglaMusicShortClipsOther = "5DCA7C64-F342-434A-A934-750F37D74AEC";
+                getCatGoryWiseContentForRobiNother(MainActivity.this, Api.URL_CATEGORYWISE_OTHER, "free", "BanglaMusicShortClipsOther", catCodeBanglaMusicShortClipsOther);
                 //  Toast.makeText(getApplicationContext(), "txtNewMovies", Toast.LENGTH_LONG).show();
-                String urlFullMovies = "http://wap.shabox.mobi/bdtubeapi/default.aspx?type=list&sequent=11";
-                makeJsonArrayRequest(context, urlFullMovies, "free", "SCBanglaMusic11");
+//                String urlFullMovies = "http://wap.shabox.mobi/bdtubeapi/default.aspx?type=list&sequent=11";
+//                makeJsonArrayRequest(context, urlFullMovies, "free", "SCBanglaMusic11");
 
                 if (!MainActivity.AppsVersion.equalsIgnoreCase(MainActivity.webVersion)) {
 
@@ -383,9 +441,11 @@ public class MainActivity extends ActionBarActivity
 // add new
             case R.id.txtBanglaDramaClips:
                 mDrawerLayout.closeDrawers();
+                String catCodeBanglaDramaClipsOther = "EAB3B615-9942-462C-B531-97F255C6041D";
+                getCatGoryWiseContentForRobiNother(MainActivity.this, Api.URL_CATEGORYWISE_OTHER, "free", "BanglaDramaClipsOther",catCodeBanglaDramaClipsOther);
                 //  Toast.makeText(getApplicationContext(), "txtNewMovies", Toast.LENGTH_LONG).show();
-                String BanglaDramaClips = "http://wap.shabox.mobi/bdtubeapi/default.aspx?type=list&sequent=20";
-                makeJsonArrayRequest(context, BanglaDramaClips, "free", "BanglaDramaClips");
+//                String BanglaDramaClips = "http://wap.shabox.mobi/bdtubeapi/default.aspx?type=list&sequent=20";
+//                makeJsonArrayRequest(context, BanglaDramaClips, "free", "BanglaDramaClips");
 
                 if (!MainActivity.AppsVersion.equalsIgnoreCase(MainActivity.webVersion)) {
 
@@ -395,9 +455,10 @@ public class MainActivity extends ActionBarActivity
                 break;
             case R.id.txtSCEnglishMusic:
                 mDrawerLayout.closeDrawers();
-                // Toast.makeText(getApplicationContext(), "txtNewMovies", Toast.LENGTH_LONG).show();
-                String urlFullMusicVideo = "http://wap.shabox.mobi/bdtubeapi/default.aspx?type=list&sequent=13";
-                makeJsonArrayRequest(context, urlFullMusicVideo, "free", "SCEnglishMusic13");
+                String catCodeEnglishMusic = "502902E6-36D9-49AA-AF31-6C722E95C000";
+                getCatGoryWiseContentForRobiNother(MainActivity.this, Api.URL_CATEGORYWISE_OTHER, "free", "englishMusicShortClipsOther", catCodeEnglishMusic);
+//                String urlFullMusicVideo = "http://wap.shabox.mobi/bdtubeapi/default.aspx?type=list&sequent=13";
+//                makeJsonArrayRequest(context, urlFullMusicVideo, "free", "SCEnglishMusic13");
 
                 if (!MainActivity.AppsVersion.equalsIgnoreCase(MainActivity.webVersion)) {
 
@@ -408,9 +469,11 @@ public class MainActivity extends ActionBarActivity
 
             case R.id.txtSCEnglishMovies:
                 mDrawerLayout.closeDrawers();
+                String catCodeEnglishMovieClipsOther = "C450D2D6-58BB-478C-BE83-32DC3CA9690A";
+                getCatGoryWiseContentForRobiNother(MainActivity.this, Api.URL_CATEGORYWISE_OTHER, "free", "EnglishMovieClipsOther", catCodeEnglishMovieClipsOther);
                 //Toast.makeText(getApplicationContext(), "txtNewMovies", Toast.LENGTH_LONG).show();
-                String urlFullDrama = "http://wap.shabox.mobi/bdtubeapi/default.aspx?type=list&sequent=12";
-                makeJsonArrayRequest(context, urlFullDrama, "free", "SCEnglishMovies12");
+//                String urlFullDrama = "http://wap.shabox.mobi/bdtubeapi/default.aspx?type=list&sequent=12";
+//                makeJsonArrayRequest(context, urlFullDrama, "free", "SCEnglishMovies12");
 
                 if (!MainActivity.AppsVersion.equalsIgnoreCase(MainActivity.webVersion)) {
 
@@ -420,9 +483,11 @@ public class MainActivity extends ActionBarActivity
                 break;
             case R.id.txtSCBanglaMovies:
                 mDrawerLayout.closeDrawers();
+                String catCodeBanglaMoviecClips = "C4C85FA7-7021-4BB4-B7EB-E793D26963B3";
+                getCatGoryWiseContentForRobiNother(MainActivity.this, Api.URL_CATEGORYWISE_OTHER, "free", "BanglaMoviecClips", catCodeBanglaMoviecClips);
                 // Toast.makeText(getApplicationContext(), "txtNewMovies", Toast.LENGTH_LONG).show();
-                String urlFullFunny = "http://wap.shabox.mobi/bdtubeapi/default.aspx?type=list&sequent=10";
-                makeJsonArrayRequest(context, urlFullFunny, "free", "SCBanglaMovies10");
+//                String urlFullFunny = "http://wap.shabox.mobi/bdtubeapi/default.aspx?type=list&sequent=10";
+//                makeJsonArrayRequest(context, urlFullFunny, "free", "SCBanglaMovies10");
 
                 if (!MainActivity.AppsVersion.equalsIgnoreCase(MainActivity.webVersion)) {
 
@@ -432,9 +497,11 @@ public class MainActivity extends ActionBarActivity
                 break;
             case R.id.txtHindiMovie:
                 mDrawerLayout.closeDrawers();
+                String catCodeHindiMovieClips = "5EAF33AB-0A57-4D80-9392-F212E5D209FF";
+                getCatGoryWiseContentForRobiNother(MainActivity.this, Api.URL_CATEGORYWISE_OTHER, "free", "HindiMovieClips", catCodeHindiMovieClips);
                 // Toast.makeText(getApplicationContext(), "txtNewMovies", Toast.LENGTH_LONG).show();
-                String HindiMovie = "http://wap.shabox.mobi/bdtubeapi/default.aspx?type=list&sequent=14";
-                makeJsonArrayRequest(context, HindiMovie, "free", "HindiMovie");
+//                String HindiMovie = "http://wap.shabox.mobi/bdtubeapi/default.aspx?type=list&sequent=14";
+//                makeJsonArrayRequest(context, HindiMovie, "free", "HindiMovie");
 
                 if (!MainActivity.AppsVersion.equalsIgnoreCase(MainActivity.webVersion)) {
 
@@ -444,9 +511,11 @@ public class MainActivity extends ActionBarActivity
                 break;
             case R.id.txtSCBollywoodCelebrityNews:
                 mDrawerLayout.closeDrawers();
+                String catCodeBollywoodCelebNews = "5C5778B0-BDD2-4751-8835-A84988E9D09D";
+                getCatGoryWiseContentForRobiNother(MainActivity.this, Api.URL_CATEGORYWISE_OTHER, "free", "BollywoodCelebNews", catCodeBollywoodCelebNews);
                 //  Toast.makeText(getApplicationContext(), "txtNewMovies", Toast.LENGTH_LONG).show();
-                String urlVClipsMovieclips = "http://wap.shabox.mobi/bdtubeapi/default.aspx?type=list&sequent=16";
-                makeJsonArrayRequest(context, urlVClipsMovieclips, "free", "SCBollywoodCelebrityNews16");
+//                String urlVClipsMovieclips = "http://wap.shabox.mobi/bdtubeapi/default.aspx?type=list&sequent=16";
+//                makeJsonArrayRequest(context, urlVClipsMovieclips, "free", "SCBollywoodCelebrityNews16");
 
                 if (!MainActivity.AppsVersion.equalsIgnoreCase(MainActivity.webVersion)) {
 
@@ -456,9 +525,11 @@ public class MainActivity extends ActionBarActivity
                 break;
             case R.id.txtSCBollywoodMovieReview:
                 mDrawerLayout.closeDrawers();
+                String catCodeBollyMovieReview = "104CDD74-51AA-416E-93B0-7F3931AE60BD";
+                getCatGoryWiseContentForRobiNother(MainActivity.this, Api.URL_CATEGORYWISE_OTHER, "free", "BollyMovieReview", catCodeBollyMovieReview);
                 // Toast.makeText(getApplicationContext(), "txtNewMovies", Toast.LENGTH_LONG).show();
-                String urlVClipsMusicvideo = "http://wap.shabox.mobi/bdtubeapi/default.aspx?type=list&sequent=17";
-                makeJsonArrayRequest(context, urlVClipsMusicvideo, "free", "SCBollywoodMovieReview17");
+//                String urlVClipsMusicvideo = "http://wap.shabox.mobi/bdtubeapi/default.aspx?type=list&sequent=17";
+//                makeJsonArrayRequest(context, urlVClipsMusicvideo, "free", "SCBollywoodMovieReview17");
 
                 if (!MainActivity.AppsVersion.equalsIgnoreCase(MainActivity.webVersion)) {
 
@@ -468,9 +539,11 @@ public class MainActivity extends ActionBarActivity
                 break;
             case R.id.txtHollywoodMovieReview:
                 mDrawerLayout.closeDrawers();
+                String catCodeHollywoodMovieReview = "021AB351-3182-49DF-894C-888FA66EA59F";
+                getCatGoryWiseContentForRobiNother(MainActivity.this, Api.URL_CATEGORYWISE_OTHER, "free", "HollywoodMovieReview", catCodeHollywoodMovieReview);
                 //Toast.makeText(getApplicationContext(), "txtNewMovies", Toast.LENGTH_LONG).show();
-                String urlVClipsDrama = "http://wap.shabox.mobi/bdtubeapi/default.aspx?type=list&sequent=18";
-                makeJsonArrayRequest(context, urlVClipsDrama, "free", "HollywoodMovieReview18");
+//                String urlVClipsDrama = "http://wap.shabox.mobi/bdtubeapi/default.aspx?type=list&sequent=18";
+//                makeJsonArrayRequest(context, urlVClipsDrama, "free", "HollywoodMovieReview18");
 
                 if (!MainActivity.AppsVersion.equalsIgnoreCase(MainActivity.webVersion)) {
 
@@ -480,9 +553,11 @@ public class MainActivity extends ActionBarActivity
                 break;
             case R.id.txtHollywoodGossip:
                 mDrawerLayout.closeDrawers();
+                String catCodeHollywoodGossip = "C1104876-012B-4B85-8E51-F84FA6CD6DBA";
+                getCatGoryWiseContentForRobiNother(MainActivity.this, Api.URL_CATEGORYWISE_OTHER, "free", "HollywoodGossip", catCodeHollywoodGossip);
                 //Toast.makeText(getApplicationContext(), "txtNewMovies", Toast.LENGTH_LONG).show();
-                String urlHollywoodGossip = "http://wap.shabox.mobi/bdtubeapi/default.aspx?type=list&sequent=19";
-                makeJsonArrayRequest(context, urlHollywoodGossip, "free", "urlHollywoodGossip");
+//                String urlHollywoodGossip = "http://wap.shabox.mobi/bdtubeapi/default.aspx?type=list&sequent=19";
+//                makeJsonArrayRequest(context, urlHollywoodGossip, "free", "urlHollywoodGossip");
 
                 if (!MainActivity.AppsVersion.equalsIgnoreCase(MainActivity.webVersion)) {
 
@@ -494,9 +569,11 @@ public class MainActivity extends ActionBarActivity
             //Full Movie
             case R.id.txtFMHindiMovie:
                 mDrawerLayout.closeDrawers();
+                String catCodeHondiMovie = "C857EB0C-CF68-42D1-A532-7BC309F986E7";
+                getCatGoryWiseContentForRobiNother(MainActivity.this, Api.URL_CATEGORYWISE_OTHER, "free", "HondiMovie", catCodeHondiMovie);
                 // Toast.makeText(getApplicationContext(), "txtNewMovies", Toast.LENGTH_LONG).show();
-                String urlVClipsFunny = "http://wap.shabox.mobi/bdtubeapi/default.aspx?type=list&sequent=3";
-                makeJsonArrayRequest(context, urlVClipsFunny, "FullMovie", "FMHindiMovie3");
+//                String urlVClipsFunny = "http://wap.shabox.mobi/bdtubeapi/default.aspx?type=list&sequent=3";
+//                makeJsonArrayRequest(context, urlVClipsFunny, "FullMovie", "FMHindiMovie3");
 
                 if (!MainActivity.AppsVersion.equalsIgnoreCase(MainActivity.webVersion)) {
 
@@ -506,9 +583,11 @@ public class MainActivity extends ActionBarActivity
                 break;
             case R.id.txtFMBanglaMovie:
                 mDrawerLayout.closeDrawers();
+                String catCodeBanglaMovie = "A5D68929-8921-4ECD-8151-E36A3871EB95";
+                getCatGoryWiseContentForRobiNother(MainActivity.this, Api.URL_CATEGORYWISE_OTHER, "free", "BanglaMovie", catCodeBanglaMovie);
                 //  Toast.makeText(getApplicationContext(), "Content not available", Toast.LENGTH_LONG).show();
-                String urlFMBanglaMovie = "http://wap.shabox.mobi/bdtubeapi/default.aspx?type=list&sequent=1";
-                makeJsonArrayRequest(context, urlFMBanglaMovie, "FullMovie", "FMBanglaMovie1");
+//                String urlFMBanglaMovie = "http://wap.shabox.mobi/bdtubeapi/default.aspx?type=list&sequent=1";
+//                makeJsonArrayRequest(context, urlFMBanglaMovie, "FullMovie", "FMBanglaMovie1");
 
                 if (!MainActivity.AppsVersion.equalsIgnoreCase(MainActivity.webVersion)) {
 
@@ -531,9 +610,11 @@ public class MainActivity extends ActionBarActivity
 
             case R.id.btnNewVideo:
                 mDrawerLayout.closeDrawers();
+                String catCodeNewVideo = "1";
+                getCatGoryWiseContentForRobiNother(MainActivity.this, Api.URL_MAIN_PAGE_OTHER, "free", "newVideo",catCodeNewVideo);
                 // Toast.makeText(getApplicationContext(), "txtNewMovies", Toast.LENGTH_LONG).show();
-                String urlNewVideo = "http://wap.shabox.mobi/bdtubeapi/default.aspx?type=list&sequent=00";
-                makeJsonArrayRequest(context, urlNewVideo, "free", "NewVideo00");
+//                String urlNewVideo = "http://wap.shabox.mobi/bdtubeapi/default.aspx?type=list&sequent=00";
+//                makeJsonArrayRequest(context, urlNewVideo, "free", "NewVideo00");
                 if (!MainActivity.AppsVersion.equalsIgnoreCase(MainActivity.webVersion)) {
 
                     Update();
@@ -950,6 +1031,95 @@ public class MainActivity extends ActionBarActivity
         });
 
         updateDialog.show();
+    }
+
+    int length;
+
+    private void getCatGoryWiseContentForRobiNother(Context applicationContext, String url, final String free, final String banglaMusicHD, String catCode) {
+
+        AllHomeVideo.removeHomeVideoList();
+        ProgressDialog();
+
+        JSONObject js = new JSONObject();
+        try {
+            js.put("CatCode", catCode);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        final String requestBody = js.toString();
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST, url, requestBody, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+
+                Log.d("JSON response", response.toString());
+
+                try {
+                    // Parsing json array response
+                    // loop through each json object
+
+                    if (response.length() > 100) {
+
+                        length = 100;
+                    } else {
+                        length = response.length();
+                    }
+
+                    for (int i = 0; i < length; i++) {
+
+                        JSONObject homeURL = (JSONObject) response
+                                .get(i);
+                        HomeVideoList homeVideoList = new HomeVideoList();
+                        AllHomeVideo allHomeVideo = new AllHomeVideo();
+                        String TimeStamp = homeURL.getString("TimeStamp");
+                        String ContentCode = homeURL.getString("ContentCode");
+                        String ContentCategoryCode = homeURL.getString("ContentCategoryCode");
+                        String ContentTitle = homeURL.getString("ContentTitle");
+                        String PreviewURL = homeURL.getString("BigPreview");
+                        String VideoURL = homeURL.getString("PhysicalFileName");
+                        String ContentType = homeURL.getString("ContentType");
+                        String Value = homeURL.getString("Value");
+                        String Artist = homeURL.getString("Artist");
+                        String ContentZedCode = homeURL.getString("ContentZedCode");
+
+
+                        homeVideoList.setContentCategoryCode(ContentCategoryCode);
+                        homeVideoList.setContentCode(ContentCode);
+                        homeVideoList.setTimeStamp(TimeStamp);
+                        homeVideoList.setContentTitle(ContentTitle);
+                        homeVideoList.setPreviewURL(PreviewURL);
+                        homeVideoList.setVideoURL(VideoURL);
+                        homeVideoList.setContentType(ContentType);
+                        homeVideoList.setValue(Value);
+                        homeVideoList.setMenuFree(free);
+                        homeVideoList.setMenuTitle(banglaMusicHD);
+                        homeVideoList.setArtist(Artist);
+                        homeVideoList.setContentZedCode(ContentZedCode);
+                        // Log.d("JSON data", PreviewURL + "    ContentCategoryCode: " + PreviewURLserch);
+
+
+                        allHomeVideo.setHomeVideoList(homeVideoList);
+                        listCustomize();
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+
+                }
+                hideProgressDialog();
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("Response", error.getMessage());
+            }
+        });
+
+        //StringRequest request = new StringRequest()
+
+        Volley.newRequestQueue(applicationContext).add(request);
+
     }
 
 }

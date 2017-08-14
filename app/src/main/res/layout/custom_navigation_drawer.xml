@@ -136,7 +136,7 @@
                     android:layout_marginTop="1dp"
                     android:layout_weight=".2"
                     android:onClick="TxtClickView"
-                    android:text="-Bangla Natok"
+                    android:text="-Bangla Natok HD"
                     android:textColor="@color/white"
                     android:textSize="13dp" />
 

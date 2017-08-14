@@ -28,10 +28,12 @@ import android.widget.MediaController;
 import android.widget.TextView;
 import android.widget.VideoView;
 
+import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.Volley;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
@@ -44,15 +46,19 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import bdtube.vumobile.com.bdtube.Config.Api;
 import bdtube.vumobile.com.bdtube.CustomAdopter.HomeVideoAdopter;
 import bdtube.vumobile.com.bdtube.Holder.AllHomeVideo;
 import bdtube.vumobile.com.bdtube.Model.HomeVideoList;
+import bdtube.vumobile.com.bdtube.SoapCall.MSISDNDetector;
 import bdtube.vumobile.com.bdtube.SoapCall.RequiredUserInfo;
 import bdtube.vumobile.com.bdtube.app.AppController;
 import bdtube.vumobile.com.bdtube.util.PHPRequest;
 import bdtube.vumobile.com.bdtube.util.SharedPreferencesHelper;
 
 public class VideoViewActivity extends ActionBarActivity {
+    public String urlForRobi = "http://wap.shabox.mobi/bdnewapi/Data/Categorywise";
+    public String urlForOther = "http://wap.shabox.mobi/bdnewapi/DataOther/Categorywise";
 
     // Declare variables
     ProgressDialog pDialog;
@@ -62,12 +68,14 @@ public class VideoViewActivity extends ActionBarActivity {
     // Insert your Video URL
     String VideoURL = "http://wap.shabox.mobi/CMS/Content/Graphics/Video Clips/D800x600/Ami_Jare_by_DJ_Rahat_N_Reshmi.mp4";
     TextView txtSongName, tvArtistName;
+    String ArtistName;
     private ArrayList<HomeVideoList> homeVideoLists;
     private HomeVideoAdopter homeVideoAdopter;
     PullToRefreshListView pullToRListView;
     ImageButton btnFullScreen;
     private String path = "http://dl.dropbox.com/u/145894/t/rabbits.3gp";
     public String MenuTitle, MenuFree, MobileNumber = "";
+    public static String resultMno = null;
     public String pushResponseUrl = "http://203.76.126.210/sticker_gcm_server_bdtube/push_response.php";
 
     PHPRequest phpRequest = new PHPRequest();
@@ -96,7 +104,8 @@ public class VideoViewActivity extends ActionBarActivity {
         tvArtistName = (TextView) findViewById(R.id.txtArtistName);
         String value = getIntent().getStringExtra("videoURL");
         ContentTitle = getIntent().getStringExtra("getContentTitle");
-        String ArtistName = getIntent().getStringExtra("ArtistName");
+        ArtistName = getIntent().getStringExtra("ArtistName");
+        Log.d("artistName",ArtistName);
         MenuTitle = getIntent().getStringExtra("MenuTitle");
         MenuFree = getIntent().getStringExtra("MenuFree");
         MobileNumber = getIntent().getStringExtra("MobileNumber");
@@ -111,10 +120,10 @@ public class VideoViewActivity extends ActionBarActivity {
 
             SendLaunchPushRes();
             txtSongName.setText("Song name:  " + ContentTitle);
-            tvArtistName.setText("Artist name: " + ArtistName);
+            tvArtistName.setText("Artist name: " + ArtistName.replaceAll("_"," "));
         } else {
             txtSongName.setText("Song name:  " + ContentTitle);
-            tvArtistName.setText("Artist name: " + ArtistName);
+            tvArtistName.setText("Artist name: " + ArtistName.replaceAll("_"," "));
         }
         // btnFullScreen=(ImageButton)findViewById(R.id.btnFullScreen);
 
@@ -233,7 +242,74 @@ public class VideoViewActivity extends ActionBarActivity {
 
             String urlFavorites = "http://wap.shabox.mobi/BDTubeAPI/ContentMetaGet.aspx?type=FavouriteList&msisdn=" + MobileNumber + "";
             makeJsonArrayRequest(VideoViewActivity.this, urlFavorites, "free", "Favorites");
-        } else {
+        } else if (MenuTitle.equals("MainScreenRobi")){
+            String catCode = "2";
+            getCatGoryWiseContentForRobiNother(VideoViewActivity.this, Api.URL_MAIN_PAGE_ROBI, "free","MainScreenRobi",catCode);
+        }else if (MenuTitle.equals("MainScreenOther")){
+            String catCode = "1";
+            getCatGoryWiseContentForRobiNother(VideoViewActivity.this, Api.URL_MAIN_PAGE_OTHER, "free","MainScreenOther",catCode);
+        }else if (MenuTitle.equals("banglaMusicOther")){
+            String catCode = "E8E4F496-9CA9-4B35-BADD-9B6470BE2F74";
+            getCatGoryWiseContentForRobiNother(VideoViewActivity.this, Api.URL_CATEGORYWISE_OTHER,"free","banglaMusicOther",catCode);
+        }else if (MenuTitle.equals("englishMusicOther")){
+            String catCodeEnglishMusicOther = "74D847C2-4E98-44DA-B7A3-61C1EAE8938F";
+            getCatGoryWiseContentForRobiNother(VideoViewActivity.this,Api.URL_CATEGORYWISE_OTHER,catCodeEnglishMusicOther,"englishMusicOther",catCodeEnglishMusicOther);
+        }else if (MenuTitle.equals("banglaMovieSong")){
+            String catCodeBanglaMovieSong = "A5D68929-8921-4ECD-8151-E36A3871EB95";
+            getCatGoryWiseContentForRobiNother(VideoViewActivity.this,Api.URL_CATEGORYWISE_OTHER,"free","banglaMovieSong",catCodeBanglaMovieSong);
+        }else if (MenuTitle.equals("BanglaDramaHDOther")){
+
+            String catCodeBanglaDramaHD = "4781C5FB-0F16-4892-877D-F2F73DD4DE92";
+            getCatGoryWiseContentForRobiNother(VideoViewActivity.this,Api.URL_CATEGORYWISE_OTHER,"free","BanglaDramaHDOther",catCodeBanglaDramaHD);
+        }else if (MenuTitle.equals("BanglaMusicShortClipsOther")){
+
+            String catCodeBanglaMusicShortClipsOther = "5DCA7C64-F342-434A-A934-750F37D74AEC";
+            getCatGoryWiseContentForRobiNother(VideoViewActivity.this, Api.URL_CATEGORYWISE_OTHER, "free", "BanglaMusicShortClipsOther", catCodeBanglaMusicShortClipsOther);
+        }else if (MenuTitle.equals("BanglaDramaClipsOther")){
+
+            String catCodeBanglaDramaClipsOther = "EAB3B615-9942-462C-B531-97F255C6041D";
+            getCatGoryWiseContentForRobiNother(VideoViewActivity.this, Api.URL_CATEGORYWISE_OTHER, "free", "BanglaDramaClipsOther",catCodeBanglaDramaClipsOther);
+        }else if (MenuTitle.equals("englishMusicShortClipsOther")){
+
+            String catCodeEnglishMusic = "502902E6-36D9-49AA-AF31-6C722E95C000";
+            getCatGoryWiseContentForRobiNother(VideoViewActivity.this, Api.URL_CATEGORYWISE_OTHER, "free", "englishMusicShortClipsOther", catCodeEnglishMusic);
+        }else if (MenuTitle.equals("EnglishMovieClipsOther")){
+
+            String catCodeEnglishMovieClipsOther = "C450D2D6-58BB-478C-BE83-32DC3CA9690A";
+            getCatGoryWiseContentForRobiNother(VideoViewActivity.this, Api.URL_CATEGORYWISE_OTHER, "free", "EnglishMovieClipsOther", catCodeEnglishMovieClipsOther);
+        }else if (MenuTitle.equals("BanglaMoviecClips")){
+
+            String catCodeBanglaMoviecClips = "C4C85FA7-7021-4BB4-B7EB-E793D26963B3";
+            getCatGoryWiseContentForRobiNother(VideoViewActivity.this, Api.URL_CATEGORYWISE_OTHER, "free", "BanglaMoviecClips", catCodeBanglaMoviecClips);
+        }else if (MenuTitle.equals("HindiMovieClips")){
+
+            String catCodeHindiMovieClips = "5EAF33AB-0A57-4D80-9392-F212E5D209FF";
+            getCatGoryWiseContentForRobiNother(VideoViewActivity.this, Api.URL_CATEGORYWISE_OTHER, "free", "HindiMovieClips", catCodeHindiMovieClips);
+        }else if (MenuTitle.equals("BollywoodCelebNews")){
+
+            String catCodeBollywoodCelebNews = "5C5778B0-BDD2-4751-8835-A84988E9D09D";
+            getCatGoryWiseContentForRobiNother(VideoViewActivity.this, Api.URL_CATEGORYWISE_OTHER, "free", "BollywoodCelebNews", catCodeBollywoodCelebNews);
+        }else if (MenuTitle.equals("BollyMovieReview")){
+
+            String catCodeBollyMovieReview = "104CDD74-51AA-416E-93B0-7F3931AE60BD";
+            getCatGoryWiseContentForRobiNother(VideoViewActivity.this, Api.URL_CATEGORYWISE_OTHER, "free", "BollyMovieReview", catCodeBollyMovieReview);
+        }else if (MenuTitle.equals("HollywoodMovieReview")){
+
+            String catCodeHollywoodMovieReview = "021AB351-3182-49DF-894C-888FA66EA59F";
+            getCatGoryWiseContentForRobiNother(VideoViewActivity.this, Api.URL_CATEGORYWISE_OTHER, "free", "HollywoodMovieReview", catCodeHollywoodMovieReview);
+        }else if (MenuTitle.equals("HollywoodGossip")){
+
+            String catCodeHollywoodGossip = "C1104876-012B-4B85-8E51-F84FA6CD6DBA";
+            getCatGoryWiseContentForRobiNother(VideoViewActivity.this, Api.URL_CATEGORYWISE_OTHER, "free", "HollywoodGossip", catCodeHollywoodGossip);
+        }else if (MenuTitle.equals("HondiMovie")){
+
+            String catCodeHondiMovie = "C857EB0C-CF68-42D1-A532-7BC309F986E7";
+            getCatGoryWiseContentForRobiNother(VideoViewActivity.this, Api.URL_CATEGORYWISE_OTHER, "free", "HondiMovie", catCodeHondiMovie);
+        }else if (MenuTitle.equals("newVideo")){
+
+            String catCodeNewVideo = "1";
+            getCatGoryWiseContentForRobiNother(VideoViewActivity.this, Api.URL_MAIN_PAGE_OTHER, "free", "newVideo",catCodeNewVideo);
+        }else {
             String urlNewVideo = "http://wap.shabox.mobi/bdtubeapi/default.aspx?type=random&sequent=00";
             makeJsonArrayRequest(VideoViewActivity.this, urlNewVideo, "free", "NewVideo00");
         }
@@ -494,6 +570,85 @@ public class VideoViewActivity extends ActionBarActivity {
 
     }
 
+    private void getCatGoryWiseContentForRobiNother(Context applicationContext, String url, final String free, final String banglaMusicHD, String catCode) {
+
+        AllHomeVideo.removeHomeVideoList();
+
+        JSONObject js = new JSONObject();
+        try {
+            js.put("CatCode",catCode);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        final String requestBody = js.toString();
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST, url,requestBody, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+
+
+                Log.d("JSON response", response.toString());
+
+                try {
+                    // Parsing json array response
+                    // loop through each json object
+
+                    for (int i = 0; i < 5; i++) {
+
+                        JSONObject homeURL = (JSONObject) response
+                                .get(i);
+                        HomeVideoList homeVideoList = new HomeVideoList();
+                        AllHomeVideo allHomeVideo = new AllHomeVideo();
+                        String TimeStamp = homeURL.getString("TimeStamp");
+                        String ContentCode = homeURL.getString("ContentCode");
+                        String ContentCategoryCode = homeURL.getString("ContentCategoryCode");
+                        String ContentTitle = homeURL.getString("ContentTitle");
+                        String PreviewURL = homeURL.getString("BigPreview");
+                        String VideoURL = homeURL.getString("PhysicalFileName");
+                        String ContentType = homeURL.getString("ContentType");
+                        String Value = homeURL.getString("Value");
+                        String Artist = homeURL.getString("Artist");
+                        String ContentZedCode = homeURL.getString("ContentZedCode");
+
+
+                        homeVideoList.setContentCategoryCode(ContentCategoryCode);
+                        homeVideoList.setContentCode(ContentCode);
+                        homeVideoList.setTimeStamp(TimeStamp);
+                        homeVideoList.setContentTitle(ContentTitle);
+                        homeVideoList.setPreviewURL(PreviewURL);
+                        homeVideoList.setVideoURL(VideoURL);
+                        homeVideoList.setContentType(ContentType);
+                        homeVideoList.setValue(Value);
+                        homeVideoList.setMenuFree(free);
+                        homeVideoList.setMenuTitle(banglaMusicHD);
+                        homeVideoList.setArtist(Artist);
+                        homeVideoList.setContentZedCode(ContentZedCode);
+                        // Log.d("JSON data", PreviewURL + "    ContentCategoryCode: " + PreviewURLserch);
+
+
+                        allHomeVideo.setHomeVideoList(homeVideoList);
+                        listCustomize();
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("Response",error.getMessage());
+            }
+        });
+
+        //StringRequest request = new StringRequest()
+
+        Volley.newRequestQueue(applicationContext).add(request);
+
+    }
+
 
     public void Update() {
 
@@ -572,6 +727,35 @@ public class VideoViewActivity extends ActionBarActivity {
             super.onPreExecute();
 
 
+            // detect MSISDN when notification launched
+            // detect MSISDN when notification launched
+            try {
+                Thread.sleep(1000);
+                resultMno = "START";
+                MSISDNDetector cws = new MSISDNDetector();
+                cws.join();
+                cws.start();
+
+                while (resultMno == "START") {
+                    try {
+                        Thread.sleep(100);
+                    } catch (Exception ex) {
+                    }
+                }
+
+                if(resultMno.equalsIgnoreCase("ERROR"))
+                {
+                    resultMno="wifi";
+                }
+
+                Log.i("MSISDNs", "" + resultMno);
+
+            } catch (Exception ex) {
+                Log.i("EXCEPTION EXIST USER", "" + ex.toString());
+
+            }
+
+
         }
 
         @Override
@@ -583,7 +767,7 @@ public class VideoViewActivity extends ActionBarActivity {
             params.add(new BasicNameValuePair("action", "launch"));
             params.add(new BasicNameValuePair("handset_name", HS_MANUFAC_));
             params.add(new BasicNameValuePair("handset_model", HS_MOD_));
-            params.add(new BasicNameValuePair("msisdn", MobileNumber));
+            params.add(new BasicNameValuePair("msisdn", resultMno));
 
             // getting JSON Object
             // Note that create product url accepts POST method
