@@ -13,4 +13,6 @@ public class Api {
     public static final String URL_MAIN_PAGE_OTHER = "http://wap.shabox.mobi/bdnewapi/DataOther/FullData";
 
     public static final String URL_CATEGORYWISE_OTHER = "http://wap.shabox.mobi/bdnewapi/DataOther/Categorywise";
+
+    public static final String URL_FAV_LIST_FOR_OTHER = "http://wap.shabox.mobi/bdnewapi/DataOther/FavList";
 }

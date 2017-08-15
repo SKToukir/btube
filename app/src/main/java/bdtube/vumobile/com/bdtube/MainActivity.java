@@ -626,16 +626,17 @@ public class MainActivity extends ActionBarActivity
                 mDrawerLayout.closeDrawers();
 
 
-                if (MobileNumber.equals("")) {
+                if (MobileNumber.equals("") || MobileNumber.equals("ERROR")) {
                     NeedMSISDN needMSISDN = new NeedMSISDN();
                     needMSISDN.NeedMsisdnDialog(MainActivity.this);
                 } else {
-                    String urlFavorites1 = "http://wap.shabox.mobi/BDTubeAPI/ContentMetaGet.aspx?type=FavouriteList&msisdn=" + MobileNumber + "";
-                    String urlFavorites = urlFavorites1.replace(" ", "");
+//                    String urlFavorites1 = "http://wap.shabox.mobi/BDTubeAPI/ContentMetaGet.aspx?type=FavouriteList&msisdn=" + MobileNumber + "";
+//                    String urlFavorites = urlFavorites1.replace(" ", "");
+//
+//                    makeJsonArrayRequest(context, urlFavorites, "free", "Favorites");
+                    //Log.d("urlFavorites", urlFavorites);
 
-                    makeJsonArrayRequest(context, urlFavorites, "free", "Favorites");
-                    Log.d("urlFavorites", urlFavorites);
-
+                    getFavourateListForRobiNother(MainActivity.this, Api.URL_FAV_LIST_FOR_OTHER,"free","favListOther","8801611137743");
                 }
 
                 if (!MainActivity.AppsVersion.equalsIgnoreCase(MainActivity.webVersion)) {
@@ -1065,6 +1066,95 @@ public class MainActivity extends ActionBarActivity
                     }
 
                     for (int i = 0; i < length; i++) {
+
+                        JSONObject homeURL = (JSONObject) response
+                                .get(i);
+                        HomeVideoList homeVideoList = new HomeVideoList();
+                        AllHomeVideo allHomeVideo = new AllHomeVideo();
+                        String TimeStamp = homeURL.getString("TimeStamp");
+                        String ContentCode = homeURL.getString("ContentCode");
+                        String ContentCategoryCode = homeURL.getString("ContentCategoryCode");
+                        String ContentTitle = homeURL.getString("ContentTitle");
+                        String PreviewURL = homeURL.getString("BigPreview");
+                        String VideoURL = homeURL.getString("PhysicalFileName");
+                        String ContentType = homeURL.getString("ContentType");
+                        String Value = homeURL.getString("Value");
+                        String Artist = homeURL.getString("Artist");
+                        String ContentZedCode = homeURL.getString("ContentZedCode");
+
+
+                        homeVideoList.setContentCategoryCode(ContentCategoryCode);
+                        homeVideoList.setContentCode(ContentCode);
+                        homeVideoList.setTimeStamp(TimeStamp);
+                        homeVideoList.setContentTitle(ContentTitle);
+                        homeVideoList.setPreviewURL(PreviewURL);
+                        homeVideoList.setVideoURL(VideoURL);
+                        homeVideoList.setContentType(ContentType);
+                        homeVideoList.setValue(Value);
+                        homeVideoList.setMenuFree(free);
+                        homeVideoList.setMenuTitle(banglaMusicHD);
+                        homeVideoList.setArtist(Artist);
+                        homeVideoList.setContentZedCode(ContentZedCode);
+                        // Log.d("JSON data", PreviewURL + "    ContentCategoryCode: " + PreviewURLserch);
+
+
+                        allHomeVideo.setHomeVideoList(homeVideoList);
+                        listCustomize();
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+
+                }
+                hideProgressDialog();
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("Response", "error"+error.getMessage());
+            }
+        });
+
+        //StringRequest request = new StringRequest()
+
+        Volley.newRequestQueue(applicationContext).add(request);
+
+    }
+
+    int lengthFav;
+
+    private void getFavourateListForRobiNother(Context applicationContext, String url, final String free, final String banglaMusicHD, String msisdn) {
+
+        AllHomeVideo.removeHomeVideoList();
+        ProgressDialog();
+
+        JSONObject js = new JSONObject();
+        try {
+            js.put("MSISDN", msisdn);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        final String requestBody = js.toString();
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST, url, requestBody, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+
+                Log.d("JSON response", response.toString());
+
+                try {
+                    // Parsing json array response
+                    // loop through each json object
+
+                    if (response.length() > 100) {
+
+                        lengthFav = 100;
+                    } else {
+                        lengthFav = response.length();
+                    }
+
+                    for (int i = 0; i < lengthFav; i++) {
 
                         JSONObject homeURL = (JSONObject) response
                                 .get(i);

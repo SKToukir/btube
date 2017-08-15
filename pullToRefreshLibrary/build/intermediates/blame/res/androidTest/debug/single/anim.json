@@ -1,34 +1,50 @@
 [
     {
-        "merged": "C:\\Users\\it-6\\Desktop\\Project\\BDTubeProject\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\slide_in_from_bottom.xml",
-        "source": "C:\\Users\\it-6\\Desktop\\Project\\BDTubeProject\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\bundles\\debug\\res\\anim\\slide_in_from_bottom.xml"
+        "merged": "/home/toukir/Desktop/Android_Projects/btube/pullToRefreshLibrary/build/intermediates/res/merged/androidTest/debug/anim/slide_out_to_bottom.xml",
+        "source": "/home/toukir/Desktop/Android_Projects/btube/pullToRefreshLibrary/build/intermediates/bundles/debug/res/anim/slide_out_to_bottom.xml"
     },
     {
-        "merged": "C:\\Users\\it-6\\Desktop\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\slide_in_from_bottom.xml",
-        "source": "C:\\Users\\it-6\\Desktop\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\bundles\\debug\\res\\anim\\slide_in_from_bottom.xml"
+        "merged": "/home/toukir/Desktop/Android_Projects/btube/C:\\Users\\it-6\\Desktop\\Project\\BDTubeProject\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\slide_in_from_bottom.xml",
+        "source": "/home/toukir/Desktop/Android_Projects/btube/C:\\Users\\it-6\\Desktop\\Project\\BDTubeProject\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\bundles\\debug\\res\\anim\\slide_in_from_bottom.xml"
     },
     {
-        "merged": "C:\\Users\\it-6\\Desktop\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\slide_in_from_top.xml",
-        "source": "C:\\Users\\it-6\\Desktop\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\bundles\\debug\\res\\anim\\slide_in_from_top.xml"
+        "merged": "/home/toukir/Desktop/Android_Projects/btube/C:\\Users\\it-6\\Desktop\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\slide_in_from_bottom.xml",
+        "source": "/home/toukir/Desktop/Android_Projects/btube/C:\\Users\\it-6\\Desktop\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\bundles\\debug\\res\\anim\\slide_in_from_bottom.xml"
     },
     {
-        "merged": "C:\\Users\\it-6\\Desktop\\Project\\BDTubeProject\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\slide_in_from_top.xml",
-        "source": "C:\\Users\\it-6\\Desktop\\Project\\BDTubeProject\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\bundles\\debug\\res\\anim\\slide_in_from_top.xml"
+        "merged": "/home/toukir/Desktop/Android_Projects/btube/C:\\Users\\it-6\\Desktop\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\slide_in_from_top.xml",
+        "source": "/home/toukir/Desktop/Android_Projects/btube/C:\\Users\\it-6\\Desktop\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\bundles\\debug\\res\\anim\\slide_in_from_top.xml"
     },
     {
-        "merged": "C:\\Users\\it-6\\Desktop\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\slide_out_to_top.xml",
-        "source": "C:\\Users\\it-6\\Desktop\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\bundles\\debug\\res\\anim\\slide_out_to_top.xml"
+        "merged": "/home/toukir/Desktop/Android_Projects/btube/C:\\Users\\it-6\\Desktop\\Project\\BDTubeProject\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\slide_in_from_top.xml",
+        "source": "/home/toukir/Desktop/Android_Projects/btube/C:\\Users\\it-6\\Desktop\\Project\\BDTubeProject\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\bundles\\debug\\res\\anim\\slide_in_from_top.xml"
     },
     {
-        "merged": "C:\\Users\\it-6\\Desktop\\Project\\BDTubeProject\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\slide_out_to_bottom.xml",
-        "source": "C:\\Users\\it-6\\Desktop\\Project\\BDTubeProject\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\bundles\\debug\\res\\anim\\slide_out_to_bottom.xml"
+        "merged": "/home/toukir/Desktop/Android_Projects/btube/C:\\Users\\it-6\\Desktop\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\slide_out_to_top.xml",
+        "source": "/home/toukir/Desktop/Android_Projects/btube/C:\\Users\\it-6\\Desktop\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\bundles\\debug\\res\\anim\\slide_out_to_top.xml"
     },
     {
-        "merged": "C:\\Users\\it-6\\Desktop\\Project\\BDTubeProject\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\slide_out_to_top.xml",
-        "source": "C:\\Users\\it-6\\Desktop\\Project\\BDTubeProject\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\bundles\\debug\\res\\anim\\slide_out_to_top.xml"
+        "merged": "/home/toukir/Desktop/Android_Projects/btube/pullToRefreshLibrary/build/intermediates/res/merged/androidTest/debug/anim/slide_out_to_top.xml",
+        "source": "/home/toukir/Desktop/Android_Projects/btube/pullToRefreshLibrary/build/intermediates/bundles/debug/res/anim/slide_out_to_top.xml"
     },
     {
-        "merged": "C:\\Users\\it-6\\Desktop\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\slide_out_to_bottom.xml",
-        "source": "C:\\Users\\it-6\\Desktop\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\bundles\\debug\\res\\anim\\slide_out_to_bottom.xml"
+        "merged": "/home/toukir/Desktop/Android_Projects/btube/C:\\Users\\it-6\\Desktop\\Project\\BDTubeProject\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\slide_out_to_bottom.xml",
+        "source": "/home/toukir/Desktop/Android_Projects/btube/C:\\Users\\it-6\\Desktop\\Project\\BDTubeProject\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\bundles\\debug\\res\\anim\\slide_out_to_bottom.xml"
+    },
+    {
+        "merged": "/home/toukir/Desktop/Android_Projects/btube/pullToRefreshLibrary/build/intermediates/res/merged/androidTest/debug/anim/slide_in_from_bottom.xml",
+        "source": "/home/toukir/Desktop/Android_Projects/btube/pullToRefreshLibrary/build/intermediates/bundles/debug/res/anim/slide_in_from_bottom.xml"
+    },
+    {
+        "merged": "/home/toukir/Desktop/Android_Projects/btube/C:\\Users\\it-6\\Desktop\\Project\\BDTubeProject\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\slide_out_to_top.xml",
+        "source": "/home/toukir/Desktop/Android_Projects/btube/C:\\Users\\it-6\\Desktop\\Project\\BDTubeProject\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\bundles\\debug\\res\\anim\\slide_out_to_top.xml"
+    },
+    {
+        "merged": "/home/toukir/Desktop/Android_Projects/btube/C:\\Users\\it-6\\Desktop\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\anim\\slide_out_to_bottom.xml",
+        "source": "/home/toukir/Desktop/Android_Projects/btube/C:\\Users\\it-6\\Desktop\\BDTube\\pullToRefreshLibrary\\build\\intermediates\\bundles\\debug\\res\\anim\\slide_out_to_bottom.xml"
+    },
+    {
+        "merged": "/home/toukir/Desktop/Android_Projects/btube/pullToRefreshLibrary/build/intermediates/res/merged/androidTest/debug/anim/slide_in_from_top.xml",
+        "source": "/home/toukir/Desktop/Android_Projects/btube/pullToRefreshLibrary/build/intermediates/bundles/debug/res/anim/slide_in_from_top.xml"
     }
 ]

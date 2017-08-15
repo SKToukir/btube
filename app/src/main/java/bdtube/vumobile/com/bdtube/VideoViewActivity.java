@@ -110,6 +110,7 @@ public class VideoViewActivity extends ActionBarActivity {
         MenuFree = getIntent().getStringExtra("MenuFree");
         MobileNumber = getIntent().getStringExtra("MobileNumber");
 
+        Log.d("MobileNumberVideoView",MobileNumber);
         if (MenuFree == null) {
            /* txtSongName.setText("Movie name:  " + ContentTitle);
             tvArtistName.setVisibility(View.INVISIBLE);*/
@@ -309,6 +310,8 @@ public class VideoViewActivity extends ActionBarActivity {
 
             String catCodeNewVideo = "1";
             getCatGoryWiseContentForRobiNother(VideoViewActivity.this, Api.URL_MAIN_PAGE_OTHER, "free", "newVideo",catCodeNewVideo);
+        }else if (MenuTitle.equals("favListOther")){
+            getFavourateListForRobiNother(VideoViewActivity.this, Api.URL_FAV_LIST_FOR_OTHER,"free","favListOther","8801611137743");
         }else {
             String urlNewVideo = "http://wap.shabox.mobi/bdtubeapi/default.aspx?type=random&sequent=00";
             makeJsonArrayRequest(VideoViewActivity.this, urlNewVideo, "free", "NewVideo00");
@@ -648,6 +651,87 @@ public class VideoViewActivity extends ActionBarActivity {
         Volley.newRequestQueue(applicationContext).add(request);
 
     }
+
+    private void getFavourateListForRobiNother(Context applicationContext, String url, final String free, final String banglaMusicHD, String msisdn) {
+
+        AllHomeVideo.removeHomeVideoList();
+
+        JSONObject js = new JSONObject();
+        try {
+            js.put("MSISDN",msisdn);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        final String requestBody = js.toString();
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST, url,requestBody, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+
+
+                Log.d("JSON response", response.toString());
+
+                try {
+                    // Parsing json array response
+                    // loop through each json object
+
+                    for (int i = 0; i < 5; i++) {
+
+                        JSONObject homeURL = (JSONObject) response
+                                .get(i);
+                        HomeVideoList homeVideoList = new HomeVideoList();
+                        AllHomeVideo allHomeVideo = new AllHomeVideo();
+                        String TimeStamp = homeURL.getString("TimeStamp");
+                        String ContentCode = homeURL.getString("ContentCode");
+                        String ContentCategoryCode = homeURL.getString("ContentCategoryCode");
+                        String ContentTitle = homeURL.getString("ContentTitle");
+                        String PreviewURL = homeURL.getString("BigPreview");
+                        String VideoURL = homeURL.getString("PhysicalFileName");
+                        String ContentType = homeURL.getString("ContentType");
+                        String Value = homeURL.getString("Value");
+                        String Artist = homeURL.getString("Artist");
+                        String ContentZedCode = homeURL.getString("ContentZedCode");
+
+
+                        homeVideoList.setContentCategoryCode(ContentCategoryCode);
+                        homeVideoList.setContentCode(ContentCode);
+                        homeVideoList.setTimeStamp(TimeStamp);
+                        homeVideoList.setContentTitle(ContentTitle);
+                        homeVideoList.setPreviewURL(PreviewURL);
+                        homeVideoList.setVideoURL(VideoURL);
+                        homeVideoList.setContentType(ContentType);
+                        homeVideoList.setValue(Value);
+                        homeVideoList.setMenuFree(free);
+                        homeVideoList.setMenuTitle(banglaMusicHD);
+                        homeVideoList.setArtist(Artist);
+                        homeVideoList.setContentZedCode(ContentZedCode);
+                        // Log.d("JSON data", PreviewURL + "    ContentCategoryCode: " + PreviewURLserch);
+
+
+                        allHomeVideo.setHomeVideoList(homeVideoList);
+                        listCustomize();
+
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+
+                }
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("Response",error.getMessage());
+            }
+        });
+
+        //StringRequest request = new StringRequest()
+
+        Volley.newRequestQueue(applicationContext).add(request);
+
+    }
+
+
 
 
     public void Update() {

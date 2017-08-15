@@ -76,6 +76,7 @@
                 android:src="@drawable/fav2" />
 
             <ImageButton
+                android:visibility="gone"
                 android:id="@+id/IBComment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
